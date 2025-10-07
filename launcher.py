@@ -22,7 +22,8 @@ def setup_environment():
         'QUMAIL_DEBUG': 'false',
         'QUMAIL_KME_URL': 'http://127.0.0.1:8080',
         'QUMAIL_DEFAULT_SECURITY': 'L2',
-        'QUMAIL_THEME': 'light'
+        'QUMAIL_THEME': 'light',
+        'QT_QPA_PLATFORM': 'offscreen'  # Use offscreen platform for Replit (no display needed)
     }
     
     for key, value in env_defaults.items():
@@ -217,7 +218,7 @@ def main():
     
     try:
         # Import and run QuMail
-        from .main import main as qumail_main
+        from main import main as qumail_main
         qumail_main()
     except KeyboardInterrupt:
         print("\nQuMail shutdown requested by user")

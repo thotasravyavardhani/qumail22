@@ -15,11 +15,11 @@ from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QIcon, QPalette, QColor
 
 # Imports corrected in the previous step
-from .gui.main_window import QuMailMainWindow
-from .core.app_core import QuMailCore
-from .crypto.kme_simulator import KMESimulator
-from .utils.config import load_config
-from .utils.logger import setup_logging
+from gui.main_window import QuMailMainWindow
+from core.app_core import QuMailCore
+from crypto.kme_simulator import KMESimulator
+from utils.config import load_config
+from utils.logger import setup_logging
 
 class QuMailApplication:
     """Main QuMail Application Class"""
