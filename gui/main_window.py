@@ -16,15 +16,15 @@ from PyQt6.QtCore import Qt, pyqtSignal, QTimer, QSize
 from PyQt6.QtGui import QIcon, QPixmap, QAction, QPalette, QColor
 
 # Core imports
-from ..core.app_core import QuMailCore
-from ..utils.styles import load_style_sheet
-from ..utils.config import load_config
+from core.app_core import QuMailCore
+from utils.styles import load_style_sheet
+from utils.config import load_config
 
-from .email_module import EmailModule
-from .chat_module import ChatModule
-from .call_module import CallModule
-from .security_dock import SecurityDockWidget
-from ..utils.styles import get_main_window_stylesheet
+from gui.email_module import EmailModule
+from gui.chat_module import ChatModule
+from gui.call_module import CallModule
+from gui.security_dock import SecurityDockWidget
+from utils.styles import get_main_window_stylesheet
 
 class QuMailMainWindow(QMainWindow):
     """Main application window with KME heartbeat integration"""

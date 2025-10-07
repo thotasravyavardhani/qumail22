@@ -19,8 +19,8 @@ from email.utils import formataddr, formatdate
 import aiofiles
 
 # CRITICAL FIXES: Using '..' to import sibling packages from 'qumail' root
-from ..utils.config import load_config
-from ..db.email_database import EmailDatabase # <-- NEW DEPENDENCY FOR MULTI-USER FIX
+from utils.config import load_config
+from db.email_database import EmailDatabase # <-- NEW DEPENDENCY FOR MULTI-USER FIX
 
 # Production async email libraries
 try:
