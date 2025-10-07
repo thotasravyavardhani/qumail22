@@ -3,9 +3,9 @@
 Crypto Module for QuMail
 """
 
-from .kme_simulator import KMESimulator
-from .kme_client import KMEClient
-from .cipher_strategies import CipherManager
+from crypto.kme_simulator import KMESimulator
+from crypto.kme_client import KMEClient
+from crypto.cipher_strategies import CipherManager
 
 __all__ = [
     'KMESimulator',

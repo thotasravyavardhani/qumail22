@@ -3,6 +3,6 @@
 Core Module for QuMail
 """
 
-from .app_core import QuMailCore
+from core.app_core import QuMailCore
 
 __all__ = ['QuMailCore']

@@ -17,12 +17,12 @@ from datetime import datetime
 import os
 import aiofiles.os 
 # START OF CRITICAL IMPORT FIXES (Adding '..')
-from ..crypto.kme_client import KMEClient
-from ..crypto.cipher_strategies import CipherManager
-from ..transport.email_handler import EmailHandler
-from ..transport.chat_handler import ChatHandler
-from ..auth.identity_manager import IdentityManager
-from ..db.secure_storage import SecureStorage
+from crypto.kme_client import KMEClient
+from crypto.cipher_strategies import CipherManager
+from transport.email_handler import EmailHandler
+from transport.chat_handler import ChatHandler
+from auth.identity_manager import IdentityManager
+from db.secure_storage import SecureStorage
 # END OF CRITICAL IMPORT FIXES
 
 @dataclass
@@ -54,7 +54,7 @@ class QuMailCore:
             self.secure_storage = SecureStorage()
             
             # ISRO-GRADE: Initialize OAuth2Manager for production token management
-            from ..auth.oauth2_manager import OAuth2Manager # CRITICAL FIX: Relative import
+            from auth.oauth2_manager import OAuth2Manager # CRITICAL FIX: Absolute import
             self.oauth_manager = OAuth2Manager()
             
             # FIXED: Initialize IdentityManager with OAuth2Manager dependency injection
@@ -207,7 +207,7 @@ class QuMailCore:
                 if self.identity_manager:
                     await self.identity_manager.initialize()
                     # Restore current user state in IdentityManager
-                    from ..auth.identity_manager import UserIdentity
+                    from auth.identity_manager import UserIdentity
                     restored_identity = UserIdentity(
                         user_id=self.current_user.user_id,
                         email=self.current_user.email,
@@ -237,6 +237,49 @@ class QuMailCore:
         except Exception as e:
             logging.warning(f"Could not load user profile: {e}")
             
+    async def create_user_programmatically(self, email: str, display_name: str, password: str = "test123", provider: str = "qumail_native") -> bool:
+        """
+        Programmatically create and authenticate a user (for testing without GUI)
+        This bypasses the GUI dialog for automated testing scenarios
+        """
+        try:
+            import hashlib
+            
+            # Generate user ID from email
+            user_id = hashlib.md5(email.encode()).hexdigest()[:16]
+            password_hash = hashlib.sha256(password.encode()).hexdigest()
+            
+            # Create user profile
+            self.current_user = UserProfile(
+                user_id=user_id,
+                email=email,
+                display_name=display_name,
+                password_hash=password_hash,
+                sae_id=f"qumail_{user_id}",
+                provider=provider,
+                created_at=datetime.utcnow(),
+                last_login=datetime.utcnow()
+            )
+            
+            # Save profile securely
+            profile_dict = self._user_profile_to_dict(self.current_user)
+            await self.secure_storage.save_user_profile(profile_dict)
+            
+            # Initialize transport handlers
+            await self.email_handler.initialize(self.current_user)
+            # Set oauth_manager to prevent attribute errors
+            self.email_handler.oauth_manager = self.oauth_manager
+            self.email_handler.user_id = self.current_user.user_id
+            
+            await self.chat_handler.initialize(self.current_user)
+            
+            logging.info(f"Programmatically created and authenticated user: {email}")
+            return True
+            
+        except Exception as e:
+            logging.error(f"Failed to create user programmatically: {e}")
+            return False
+    
     def set_security_level(self, level: str):
         """Set current security level"""
         if level in ['L1', 'L2', 'L3', 'L4']:
