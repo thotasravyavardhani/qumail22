@@ -40,15 +40,22 @@ def load_config() -> Dict[str, Any]:
         # OAuth2 Settings - HARDCODED CREDENTIALS FIX
         'oauth2_timeout': int(os.getenv('QUMAIL_OAUTH_TIMEOUT', '60')),
         
-        # OAuth2 Client Credentials from Environment Variables (Replit Secrets)
-        # Note: These are required for OAuth2 email integration
-        # Yahoo and Outlook can use placeholder values until real credentials are added
-        'gmail_client_id': os.getenv('GMAIL_CLIENT_ID', os.getenv('QUMAIL_GMAIL_CLIENT_ID')),
-        'gmail_client_secret': os.getenv('GMAIL_CLIENT_SECRET', os.getenv('QUMAIL_GMAIL_CLIENT_SECRET')),
-        'yahoo_client_id': os.getenv('YAHOO_CLIENT_ID', 'dummy_yahoo_client_id'),
-        'yahoo_client_secret': os.getenv('YAHOO_CLIENT_SECRET', 'dummy_yahoo_secret'),
-        'outlook_client_id': os.getenv('OUTLOOK_CLIENT_ID', 'dummy_outlook_client_id'),
-        'outlook_client_secret': os.getenv('OUTLOOK_CLIENT_SECRET', 'dummy_outlook_secret'),
+        # OAuth2 Client Credentials - HARDCODED FOR TESTING
+        # WARNING: In production, use environment variables or secrets management
+        # 
+        # TO USE GMAIL OAUTH:
+        # 1. Go to Google Cloud Console (console.cloud.google.com)
+        # 2. Create a project and enable Gmail API
+        # 3. Create OAuth 2.0 credentials
+        # 4. Replace the placeholders below with your actual credentials
+        'gmail_client_id': 'YOUR_GMAIL_CLIENT_ID_HERE',
+        'gmail_client_secret': 'YOUR_GMAIL_CLIENT_SECRET_HERE',
+        
+        # Yahoo and Outlook placeholders (update when needed)
+        'yahoo_client_id': 'YOUR_YAHOO_CLIENT_ID_HERE',
+        'yahoo_client_secret': 'YOUR_YAHOO_CLIENT_SECRET_HERE',
+        'outlook_client_id': 'YOUR_OUTLOOK_CLIENT_ID_HERE',
+        'outlook_client_secret': 'YOUR_OUTLOOK_CLIENT_SECRET_HERE',
         
         # Network Settings
         'connection_timeout': int(os.getenv('QUMAIL_CONN_TIMEOUT', '10')),

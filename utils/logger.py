@@ -7,7 +7,7 @@ import logging
 import logging.config
 import sys
 from pathlib import Path
-from .config import get_log_config
+from utils.config import get_log_config
 
 def setup_logging():
     """Setup application logging with proper configuration"""
